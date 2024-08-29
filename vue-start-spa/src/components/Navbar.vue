@@ -16,7 +16,7 @@
     </div>
     <form action="" class="d-flex">
         <button 
-            class=" btn btn-primary"
+            class="btn btn-primary"
             @click.prevent="changeTheme()"
         >
             Toggle</button>
@@ -31,6 +31,9 @@ export default {
     components: {
         NavbarLink
     },
+    created() {
+        this.getThemeSetting();
+    },
     props: ['pages', 'activePage', 'navLinkClick'],
     data() {
         return {
@@ -40,7 +43,18 @@ export default {
     methods: {
         changeTheme() {
             this.theme = this.theme == 'light' ? 'dark' : 'light';
+            this.storeThemeSetting();
+        },
+        storeThemeSetting() {
+            localStorage.setItem('theme', this.theme);
+        },
+        getThemeSetting() {
+            let theme = localStorage.getItem('theme');
+
+            if(theme) {
+                this.theme = theme;
+            }
         }
-    }
+    },    
 }
 </script>
