@@ -1,29 +1,17 @@
 <template>
-    <a 
-        class="nav-link"
-        :class="activeClasses"
-        aria-current="page"                        
-        :href="page.link.url"
-        :title="`This link goes to the ${page.link.text} page`"        
-    > {{ page.link.text }} </a>
+    <li>
+        <router-link
+            :to="`/${index}`"
+            class="nav-link"
+            active-class="active"
+            aria-current="page"                
+            :title="`This link goes to the ${page.link.text} page`"            
+        > {{ page.link.text }} </router-link>
+    </li>
 </template>
 
 <script>
 export default {
-    props: ['page', 'isActive'],
-    computed: {
-        activeClasses() {
-            return {
-                active: this.isActive,
-                emphasize: this.isActive
-            };
-        }
-    }
+    props: ['page', 'index'],
 }
 </script>
-
-<style scoped>
-.emphasize {
-    text-decoration: underline !important;
-}
-</style>

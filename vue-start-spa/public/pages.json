@@ -5,7 +5,8 @@
             "url": "index.html" 
         },
         "pageTitle": "Home Page",
-        "content": "This is home content"
+        "content": "This is home content",
+        "published" : true
     },
     {
         "link": { 
@@ -13,7 +14,8 @@
             "url": "about.html" 
         },
         "pageTitle": "About Page",
-        "content": "This is about content"
+        "content": "This is about content",
+        "published" : true
     },
     {
         "link": { 
@@ -21,6 +23,7 @@
             "url": "contact.html" 
         },
         "pageTitle": "Contact Page",
-        "content": "This is contact content"
+        "content": "This is contact content",
+        "published" : false
     }
 ]

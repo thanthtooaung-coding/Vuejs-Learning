@@ -4,22 +4,28 @@
 >
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Vinn's Vue</a>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li v-for="(page, index) in pages" class="nav-item" :key="index">                
-                <navbar-link
-                    :page="page"
-                    :isActive="activePage === index"
-                    @click.prevent="navLinkClick(index)"
-                ></navbar-link>
-            </li>                
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">            
+            <navbar-link
+                v-for="(page, index) in publishedPages" class="nav-item" :key="index"
+                :page="page"
+                :index="index"
+            ></navbar-link>
+
+            <li>
+                <router-link
+                    to="/pages"
+                    class="nav-link"
+                    active-class="active"
+                    aria-current="page"
+                > Pages </router-link>
+            </li>
         </ul>            
     </div>
     <form action="" class="d-flex">
         <button 
             class="btn btn-primary"
             @click.prevent="changeTheme()"
-        >
-            Toggle</button>
+        >Toggle</button>
     </form>
 </nav>
 </template>
@@ -27,19 +33,39 @@
 <script>
 import NavbarLink from './NavbarLink.vue';
 
-export default {
+export default {    
     components: {
         NavbarLink
     },
-    created() {
-        this.getThemeSetting();
-    },
-    props: ['pages', 'activePage', 'navLinkClick'],
+    inject: ['$pages', '$bus'],
     data() {
         return {
-            theme: 'light'
+            theme: 'light',
+            pages: []
         }                
     },
+    created() {
+        this.getThemeSetting();
+
+        this.pages = this.$pages.getAllPages();
+
+        this.$bus.$on('page-updated', () => {
+            this.pages = [...this.$pages.getAllPages()];
+        });
+
+        this.$bus.$on('page-created', () => {
+            this.pages = [...this.$pages.getAllPages()];
+        });
+
+        this.$bus.$on('page-deleted', () => {
+            this.pages = [...this.$pages.getAllPages()];
+        });
+    },
+    computed: {
+        publishedPages() {
+            return this.pages.filter(p => p.published);
+        }
+    },    
     methods: {
         changeTheme() {
             this.theme = this.theme == 'light' ? 'dark' : 'light';
